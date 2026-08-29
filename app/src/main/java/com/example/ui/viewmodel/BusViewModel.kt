@@ -133,8 +133,9 @@ class BusViewModel(application: Application) : AndroidViewModel(application) {
         simulationJob?.cancel()
         simulationJob = viewModelScope.launch {
             while (true) {
+                // Poll the live server for updates every 1.5 seconds
+                repository.fetchLiveBuses()
                 delay(1500)
-                repository.tickSimulation()
             }
         }
     }

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.util.UUID
+import com.example.data.api.ApiClient
 
 class BusRepository(
     private val userDao: UserDao,
@@ -110,131 +111,14 @@ class BusRepository(
     private val _liveBuses = MutableStateFlow<List<Bus>>(emptyList())
     val liveBuses = _liveBuses.asStateFlow()
 
-    // Animation progress tracker (0.0 to 1.0)
-    private var animationProgress = 0.0f
-
-    init {
-        // Pre-populate with live buses
-        _liveBuses.value = listOf(
-            Bus(
-                id = "BUS-N1",
-                driverName = "Robert Chen",
-                driverPhone = "+1 (555) 019-2834",
-                routeId = "ROUTE_NORTH",
-                routeName = "North Campus Shuttle (Route A)",
-                status = "On Time",
-                delayMinutes = 0,
-                capacity = 50,
-                currentPassengers = 18,
-                latitudePercent = 0.15f,
-                longitudePercent = 0.20f,
-                nextStop = "Science Block",
-                etaMinutes = 3
-            ),
-            Bus(
-                id = "BUS-S2",
-                driverName = "Sarah Jenkins",
-                driverPhone = "+1 (555) 014-9982",
-                routeId = "ROUTE_SOUTH",
-                routeName = "South Gate Express (Route B)",
-                status = "Delayed",
-                delayMinutes = 6,
-                capacity = 45,
-                currentPassengers = 32,
-                latitudePercent = 0.20f,
-                longitudePercent = 0.85f,
-                nextStop = "Administration Wing",
-                etaMinutes = 8
-            ),
-            Bus(
-                id = "BUS-M3",
-                driverName = "Marcus Brody",
-                driverPhone = "+1 (555) 012-3841",
-                routeId = "ROUTE_METRO",
-                routeName = "Metro Station Connector (Route C)",
-                status = "Arriving",
-                delayMinutes = 0,
-                capacity = 60,
-                currentPassengers = 48,
-                latitudePercent = 0.40f,
-                longitudePercent = 0.50f,
-                nextStop = "Central Library",
-                etaMinutes = 1
-            ),
-            Bus(
-                id = "BUS-R4",
-                driverName = "Elena Rostova",
-                driverPhone = "+1 (555) 017-8822",
-                routeId = "ROUTE_RING",
-                routeName = "Hostels Ring Line (Route D)",
-                status = "On Time",
-                delayMinutes = 0,
-                capacity = 50,
-                currentPassengers = 12,
-                latitudePercent = 0.85f,
-                longitudePercent = 0.15f,
-                nextStop = "Staff Quarters",
-                etaMinutes = 4
-            )
-        )
-    }
-
-    // Function called periodically to simulate bus movement on the campus routes
-    fun tickSimulation() {
-        animationProgress += 0.015f
-        if (animationProgress > 1.0f) animationProgress = 0.0f
-
-        _liveBuses.update { currentList ->
-            currentList.map { bus ->
-                val route = campusRoutes.find { it.id == bus.routeId }
-                if (route != null && route.pathPoints.isNotEmpty()) {
-                    // Calculate index on path based on animationProgress and specific bus offsets to separate them
-                    val offset = when (bus.id) {
-                        "BUS-N1" -> 0.0f
-                        "BUS-S2" -> 0.25f
-                        "BUS-M3" -> 0.5f
-                        "BUS-R4" -> 0.75f
-                        else -> 0.0f
-                    }
-                    val progress = (animationProgress + offset) % 1.0f
-                    val pathSize = route.pathPoints.size
-                    val exactIndex = progress * (pathSize - 1)
-                    val index1 = exactIndex.toInt()
-                    val index2 = (index1 + 1) % pathSize
-                    val t = exactIndex - index1
-
-                    val (x1, y1) = route.pathPoints[index1]
-                    val (x2, y2) = route.pathPoints[index2]
-
-                    // Interpolated point
-                    val x = x1 + (x2 - x1) * t
-                    val y = y1 + (y2 - y1) * t
-
-                    // Dynamically calculate the next stop and updating ETAs
-                    val stopIndex = ((progress * route.stops.size).toInt()) % route.stops.size
-                    val nextStop = route.stops[stopIndex]
-                    val baseEta = (5 - (t * 5).toInt()).coerceAtLeast(1)
-                    val eta = if (bus.status == "Delayed") baseEta + bus.delayMinutes else baseEta
-
-                    // Simulate passenger variation slightly
-                    val changeChance = (0..9).random()
-                    val passengerVariation = when {
-                        changeChance > 7 && bus.currentPassengers < bus.capacity -> 1
-                        changeChance < 2 && bus.currentPassengers > 5 -> -1
-                        else -> 0
-                    }
-
-                    bus.copy(
-                        latitudePercent = x,
-                        longitudePercent = y,
-                        nextStop = nextStop,
-                        etaMinutes = eta,
-                        currentPassengers = bus.currentPassengers + passengerVariation
-                    )
-                } else {
-                    bus
-                }
-            }
+    // Fetch live buses from the Retrofit API Backend
+    suspend fun fetchLiveBuses() {
+        try {
+            val fetchedBuses = ApiClient.transitService.getLiveBuses()
+            _liveBuses.value = fetchedBuses
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // In a production app, you might want to show a toast or offline indicator here.
         }
     }
 
