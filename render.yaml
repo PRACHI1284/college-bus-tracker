@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: college-bus-tracker-api
+    runtime: node
+    region: singapore   # Closest region for India
+    plan: free
+
+    # Root directory of your backend code
+    rootDir: backend
+
+    # Commands
+    buildCommand: npm install
+    startCommand: npm start
+
+    # Health check
+    healthCheckPath: /api/v1/buses
+
+    # Environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000

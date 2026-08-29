@@ -1,0 +1,78 @@
+name: 🚌 Build & Release APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Debug APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Rename APK
+        run: |
+          DATE=$(date +'%Y%m%d')
+          mv app/build/outputs/apk/debug/app-debug.apk \
+             app/build/outputs/apk/debug/college-bus-tracker-debug-${DATE}.apk
+          echo "APK_NAME=college-bus-tracker-debug-${DATE}.apk" >> $GITHUB_ENV
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: college-bus-tracker-apk
+          path: app/build/outputs/apk/debug/${{ env.APK_NAME }}
+          retention-days: 30
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-latest
+          name: "🚌 College Bus Tracker — Latest Debug Build"
+          body: |
+            ## 📲 Download & Install
+
+            1. Download `${{ env.APK_NAME }}` below
+            2. Transfer it to your Android phone
+            3. Enable **Install Unknown Apps** in Settings
+            4. Open the `.apk` file and tap **Install**
+
+            > **Requires:** Android 7.0+ (API 24)
+
+            ---
+            **Built from commit:** ${{ github.sha }}
+          files: app/build/outputs/apk/debug/${{ env.APK_NAME }}
+          prerelease: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
