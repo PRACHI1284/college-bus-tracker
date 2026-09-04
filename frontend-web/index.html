@@ -3,245 +3,252 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>College Bus Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <!-- App Container -->
+    <!-- Mobile App Container -->
     <div id="app">
       
-      <!-- Login View -->
+      <!-- Splash / Login Screen -->
       <section id="login-view" class="view active">
-        <div class="glass-card login-card">
-          <div class="logo-container">
-            <svg class="bus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 14h16M4 10h16M4 6h16M4 6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z"/>
-              <circle cx="8" cy="18" r="2"/>
-              <circle cx="16" cy="18" r="2"/>
-            </svg>
-          </div>
-          <h1>University Portal</h1>
-          <p class="subtitle">Enter your credentials to access live tracking</p>
-          
-          <form id="login-form">
-            <div class="input-group">
-              <input type="text" id="username" placeholder="Username" required />
-            </div>
-            <div class="input-group">
-              <input type="password" id="password" placeholder="Password" required />
-            </div>
-            <button type="submit" class="btn primary">Login</button>
-          </form>
+        <!-- Background Orbs -->
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        <div class="bg-orb orb-3"></div>
 
-          <form id="otp-form" class="hidden">
-            <p class="subtitle">Enter the 4-digit OTP</p>
-            <div class="otp-inputs">
-              <input type="text" maxlength="1" class="otp-input" required />
-              <input type="text" maxlength="1" class="otp-input" required />
-              <input type="text" maxlength="1" class="otp-input" required />
-              <input type="text" maxlength="1" class="otp-input" required />
-            </div>
-            <button type="submit" class="btn primary">Verify</button>
-            <p class="hint">Dev Mode: Any 4 digits will work.</p>
-          </form>
+        <div class="login-container">
+          <div class="app-branding">
+            <svg class="bus-icon-large" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4 11V8C4 5.79 5.79 4 8 4H16C18.21 4 20 5.79 20 8V11H4ZM4 13V18C4 19.1 4.9 20 6 20V21C6 21.55 6.45 22 7 22H8C8.55 22 9 21.55 9 21V20H15V21C15 21.55 15.45 22 16 22H17C17.55 22 18 21.55 18 21V20C19.1 20 20 19.1 20 18V13H4ZM7 18.5C6.17 18.5 5.5 17.83 5.5 17C5.5 16.17 6.17 15.5 7 15.5C7.83 15.5 8.5 16.17 8.5 17C8.5 17.83 7.83 18.5 7 18.5ZM17 18.5C16.17 18.5 15.5 17.83 15.5 17C15.5 16.17 16.17 15.5 17 15.5C17.83 15.5 18.5 16.17 18.5 17C18.5 17.83 17.83 18.5 17 18.5ZM7 8H17V10H7V8Z"/>
+            </svg>
+            <h1>College Bus Tracker</h1>
+            <p>University Transit System</p>
+          </div>
+
+          <div class="glass-card">
+            <h2>University Portal Login</h2>
+            <form id="login-form">
+              <div class="input-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <div class="input-content">
+                  <label>Student ID / Username</label>
+                  <input type="text" id="username" value="student@university.edu" required />
+                </div>
+              </div>
+              <div class="input-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <div class="input-content">
+                  <label>Password</label>
+                  <input type="password" id="password" value="password123" required />
+                </div>
+              </div>
+              <button type="submit" class="btn primary">LOGIN</button>
+              <div class="auth-steps">
+                <div class="step-bar active"></div>
+                <div class="step-bar"></div>
+              </div>
+              <p class="auth-text">2-Factor Authentication<br/><span>Step 1 of 2</span></p>
+            </form>
+          </div>
         </div>
       </section>
 
-      <!-- Main App Layout (Hidden until logged in) -->
-      <div id="main-layout" class="view">
+      <!-- Main App Interface -->
+      <div id="main-layout" class="view hidden">
         
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar glass-panel">
-          <div class="sidebar-header">
-            <svg class="bus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 14h16M4 10h16M4 6h16M4 6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z"/>
-              <circle cx="8" cy="18" r="2"/>
-              <circle cx="16" cy="18" r="2"/>
-            </svg>
-            <h2>Campus Transit</h2>
-          </div>
-          <ul class="nav-links">
-            <li class="nav-item active" data-target="dashboard-view">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-              Dashboard
-            </li>
-            <li class="nav-item" data-target="notifications-view">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-              Notifications
-            </li>
-            <li class="nav-item" data-target="payment-view">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-              Bus Pass
-            </li>
-            <li class="nav-item" data-target="account-view">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              Account
-            </li>
-          </ul>
-          <div class="sidebar-footer">
-            <div class="user-profile">
-              <div class="avatar">S</div>
-              <div class="user-info">
-                <strong>Student User</strong>
-                <span>ID: 2026CS101</span>
-              </div>
-            </div>
-            <button id="logout-btn" class="btn secondary small">Logout</button>
-          </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="main-content">
+        <!-- Content Area -->
+        <main class="content-area">
           
-          <!-- Dashboard View -->
-          <section id="dashboard-view" class="content-section active">
-        <nav class="navbar glass-panel">
-          <div class="nav-brand">
-            <svg class="bus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 14h16M4 10h16M4 6h16M4 6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V6z"/>
-              <circle cx="8" cy="18" r="2"/>
-              <circle cx="16" cy="18" r="2"/>
-            </svg>
-            <span>Campus Transit</span>
-          </div>
-          <div class="nav-profile">
-            <div class="avatar">S</div>
-            <span>Student</span>
-          </div>
-        </nav>
+          <!-- Home / Track View -->
+          <section id="track-view" class="tab-content active">
+            <header class="top-bar">
+              <h1>Live Bus Tracking</h1>
+              <span class="live-badge"><span class="dot"></span> LIVE</span>
+            </header>
+            
+            <div class="map-wrapper">
+              <canvas id="live-map-canvas"></canvas>
+            </div>
 
-        <div class="dashboard-grid">
-          <!-- Live Map Canvas Area -->
-          <div class="map-container glass-panel">
-            <div class="map-header">
-              <h2>Live Campus Map</h2>
-              <div class="status-indicator">
-                <span class="dot live"></span> Live Updates
+            <div class="bottom-sheet">
+              <div class="drag-handle"></div>
+              
+              <div class="bus-card">
+                <div class="bus-info">
+                  <h3>Bus #NC-01</h3>
+                  <p>North Campus Loop</p>
+                  <p class="next-stop">Next stop: Library Block</p>
+                </div>
+                <div class="bus-status">
+                  <span class="status-badge green">ON ROUTE</span>
+                  <span class="eta">ETA: <strong>3 min</strong></span>
+                </div>
+              </div>
+
+              <div class="bus-card">
+                <div class="bus-info">
+                  <h3>Bus #SE-02</h3>
+                  <p>South Express</p>
+                </div>
+                <div class="bus-status">
+                  <span class="eta">ETA: <strong>8 min</strong></span>
+                </div>
               </div>
             </div>
-            <canvas id="live-map-canvas" width="800" height="400"></canvas>
-          </div>
+          </section>
 
-          <!-- Active Buses Sidebar -->
-          <aside class="bus-list-container glass-panel">
-            <div class="bus-list-header">
-              <h2>Active Routes</h2>
-            </div>
-            <div id="bus-list" class="bus-list">
-              <!-- Bus cards will be injected here via JS -->
-              <div class="loading">Loading live data...</div>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <!-- Notifications View -->
-      <section id="notifications-view" class="content-section hidden">
-        <header class="section-header">
-          <h1>Notifications</h1>
-          <p>Important updates regarding your campus transit.</p>
-        </header>
-        <div class="notifications-list glass-panel">
-          <div class="notification-item unread">
-            <div class="icon-circle warning"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
-            <div class="notif-content">
-              <h4>Route Delay: South Express</h4>
-              <p>Bus BUS-205 is currently experiencing a 5-minute delay due to traffic near the Engineering Dept.</p>
-              <span class="time">Just now</span>
-            </div>
-          </div>
-          <div class="notification-item">
-            <div class="icon-circle success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
-            <div class="notif-content">
-              <h4>Pass Renewed Successfully</h4>
-              <p>Your monthly campus transit pass has been renewed for the current semester.</p>
-              <span class="time">2 days ago</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Payment View -->
-      <section id="payment-view" class="content-section hidden">
-        <header class="section-header">
-          <h1>Bus Pass & Wallet</h1>
-          <p>Manage your digital transit pass.</p>
-        </header>
-        <div class="payment-grid">
-          <div class="pass-card glass-panel premium">
-            <div class="pass-header">
-              <h3>Semester Pass</h3>
-              <span class="badge success">Active</span>
-            </div>
-            <div class="pass-body">
-              <div class="balance">
-                <span class="currency">$</span>45.00
+          <!-- Notifications View -->
+          <section id="notifications-view" class="tab-content hidden">
+            <header class="top-bar">
+              <h1>Notifications</h1>
+              <div class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <span class="badge-count">3</span>
               </div>
-              <p>Valid until Dec 2026</p>
-            </div>
-            <div class="pass-footer">
-              <button class="btn primary">Renew Pass</button>
-            </div>
-          </div>
-          <div class="transaction-history glass-panel">
-            <h3>Recent Transactions</h3>
-            <ul class="tx-list">
-              <li>
-                <div class="tx-info">
-                  <strong>Wallet Top-up</strong>
-                  <span>Credit Card ending in 4242</span>
-                </div>
-                <div class="tx-amount positive">+$20.00</div>
-              </li>
-              <li>
-                <div class="tx-info">
-                  <strong>Single Ride</strong>
-                  <span>North Campus Loop</span>
-                </div>
-                <div class="tx-amount negative">-$1.50</div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
+            </header>
 
-      <!-- Account View -->
-      <section id="account-view" class="content-section hidden">
-        <header class="section-header">
-          <h1>My Account</h1>
-          <p>Manage your profile and settings.</p>
-        </header>
-        <div class="account-details glass-panel">
-          <div class="profile-header">
-            <div class="avatar large">S</div>
-            <div>
-              <h2>Student User</h2>
-              <p class="subtitle">Computer Science, 3rd Year</p>
+            <div class="segmented-control">
+              <div class="segment active">All</div>
+              <div class="segment">Bus Alerts</div>
+              <div class="segment">Schedule</div>
             </div>
-          </div>
-          <hr class="divider" />
-          <form class="account-form">
-            <div class="input-group">
-              <label>Email Address</label>
-              <input type="email" value="student@university.edu" readonly />
+
+            <div class="notification-list">
+              <div class="notif-card green-border">
+                <div class="n-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 11V8C4 5.79 5.79 4 8 4H16C18.21 4 20 5.79 20 8V11H4Z"/></svg></div>
+                <div class="n-content">
+                  <div class="n-head">
+                    <h4>Bus NC-01 Approaching</h4>
+                    <span class="time">Just now</span>
+                  </div>
+                  <p>Arriving at Main Gate in 2 minutes</p>
+                </div>
+              </div>
+
+              <div class="notif-card yellow-border">
+                <div class="n-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
+                <div class="n-content">
+                  <div class="n-head">
+                    <h4>Bus Delayed</h4>
+                    <span class="time">10 min ago</span>
+                  </div>
+                  <p>South Express running 5 minutes late today</p>
+                </div>
+              </div>
+              
+              <div class="notif-card blue-border">
+                <div class="n-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+                <div class="n-content">
+                  <div class="n-head">
+                    <h4>Schedule Update</h4>
+                    <span class="time">1 hour ago</span>
+                  </div>
+                  <p>North Campus Loop - New stop added at Medical Block</p>
+                </div>
+              </div>
             </div>
-            <div class="input-group">
-              <label>Phone Number</label>
-              <input type="tel" value="+1 (555) 123-4567" />
+          </section>
+
+          <!-- Payment View -->
+          <section id="payment-view" class="tab-content hidden">
+            <header class="top-bar">
+              <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <h1>Bus Pass & Wallet</h1>
+              <div class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              </div>
+            </header>
+
+            <div class="pass-container">
+              <div class="digital-pass">
+                <div class="pass-info">
+                  <h3>STUDENT BUS PASS</h3>
+                  <h2>Prachi Agadge</h2>
+                  <p>Valid Until: Dec 2026</p>
+                </div>
+                <div class="qr-code">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3H11V11H3V3ZM5 5V9H9V5H5ZM13 3H21V11H13V3ZM15 5V9H19V5H15ZM3 13H11V21H3V13ZM5 15V19H9V15H5ZM13 13H15V15H13V13ZM15 15H17V17H15V15ZM17 13H19V15H17V13ZM19 15H21V17H19V15ZM13 17H15V19H13V17ZM15 19H17V21H15V19ZM17 17H19V19H17V17ZM19 19H21V21H19V19Z"/></svg>
+                </div>
+                <div class="pass-footer-id">CBT-2026-****-4821</div>
+              </div>
+
+              <div class="wallet-section">
+                <div class="wallet-header">
+                  <div class="bal-info">
+                    <span class="label">Wallet</span>
+                    <h2>Current Balance: ₹450.00</h2>
+                  </div>
+                  <button class="btn green-btn">Top Up</button>
+                </div>
+                <div class="quick-topup">
+                  <button class="outline-btn">₹100</button>
+                  <button class="outline-btn">₹200</button>
+                  <button class="outline-btn">₹500</button>
+                </div>
+              </div>
+
+              <div class="transactions">
+                <h3 class="section-title">Recent Transactions</h3>
+                <div class="tx-item">
+                  <div class="tx-desc">North Campus Loop ride</div>
+                  <div class="tx-meta"><span class="tx-amt negative">-> - ₹15</span> <span class="tx-date">Aug 29</span></div>
+                </div>
+                <div class="tx-item">
+                  <div class="tx-desc">Top-up via UPI</div>
+                  <div class="tx-meta"><span class="tx-amt positive">+ ₹200</span> <span class="tx-date">Aug 28</span></div>
+                </div>
+                <div class="tx-item">
+                  <div class="tx-desc">South Express ride</div>
+                  <div class="tx-meta"><span class="tx-amt negative">- ₹20</span> <span class="tx-date">Aug 27</span></div>
+                </div>
+              </div>
             </div>
-            <div class="input-group checkbox">
-              <input type="checkbox" id="push-notifs" checked />
-              <label for="push-notifs">Receive SMS alerts for bus delays</label>
+          </section>
+
+          <!-- Profile View (Placeholder) -->
+          <section id="profile-view" class="tab-content hidden">
+            <header class="top-bar">
+              <h1>Profile</h1>
+            </header>
+            <div style="padding: 20px; text-align: center; color: #94a3b8; margin-top: 50px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="width: 80px; height: 80px; margin-bottom: 20px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <h2>Student Profile</h2>
+              <p>Settings & Preferences</p>
+              <br/><br/>
+              <button id="logout-btn" class="btn primary">Logout</button>
             </div>
-            <button type="button" class="btn primary">Save Changes</button>
-          </form>
-        </div>
-      </section>
+          </section>
 
         </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+          <div class="nav-item" data-target="home-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span>Home</span>
+          </div>
+          <div class="nav-item active" data-target="track-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span class="active-dot"></span>
+            <span>Track</span>
+          </div>
+          <div class="nav-item" data-target="notifications-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span>Notifications</span>
+          </div>
+          <div class="nav-item" data-target="payment-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <span>Payment</span>
+          </div>
+          <div class="nav-item" data-target="profile-view">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Profile</span>
+          </div>
+        </nav>
       </div>
 
     </div>
