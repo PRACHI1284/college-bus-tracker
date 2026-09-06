@@ -1,0 +1,8 @@
+{
+  "name": "college-bus-tracker-root",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend-web && npm install && npm run build",
+    "install": "echo 'Vercel root install step'"
+  }
+}
